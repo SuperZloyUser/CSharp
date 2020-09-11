@@ -15,23 +15,23 @@ namespace Lab1
             {
                 try
                 {
-                    System.Console.Write("Enter the start number: ");
+                    Console.Write("Enter the start number: ");
                     XStart = double.Parse(System.Console.ReadLine()!);
-                    System.Console.Write("Enter the end value: ");
+                    Console.Write("Enter the end value: ");
                     XEnd = double.Parse(System.Console.ReadLine()!);
-                    System.Console.Write("Enter dx: ");
+                    Console.Write("Enter dx: ");
                     Dx = double.Parse(System.Console.ReadLine()!);
-                    System.Console.Write("Enter Precision: ");
+                    Console.Write("Enter Precision: ");
                     Precision = double.Parse(System.Console.ReadLine()!);
                     break;
                 }
                 catch (Exception e)
                 {
-                    System.Console.Error.WriteLine(e.Message);
+                    Console.Error.WriteLine(e.Message);
                 }
             }
 
-            System.Console.WriteLine($" {"x  ", 10} | {"f(x)    ", 20} | {"Sum(x)  ", 20} | {"n   ", 7} | {"Condition", 12} ");
+            Console.WriteLine($" {"x  ", 10} | {"f(x)    ", 20} | {"Sum(x)  ", 20} | {"n   ", 7} | {"Condition", 12} ");
             for (var i = XStart; i <= XEnd; i += Dx)
             {
                 

@@ -41,9 +41,7 @@ namespace Lab1
 
             for (; I < MaxN; I++)
             {
-                unsafe
-                {
-                    var stepValue = CalculateCurrent(stepData);
+                var stepValue = CalculateCurrent(stepData);
 
                     if (Math.Abs(stepValue) < precision)
                     {
@@ -53,8 +51,8 @@ namespace Lab1
                     _result += stepValue;
                     // Console.WriteLine($"{I}) {$"{_result:F20}", 10}");
                     
-                    UpdateDataForNextStep(&stepData, x);
-                }
+                    UpdateDataForNextStep(ref stepData, x);
+                
             }
 
             if (I == MaxN)
@@ -68,11 +66,11 @@ namespace Lab1
             return _result;
         }
 
-        private static unsafe void UpdateDataForNextStep(StepData* stepData, double x)
+        private static void UpdateDataForNextStep(ref StepData stepData, double x)
         {
-            stepData->Top *= x * x;
-            stepData->Under += 2;
-            stepData->Mark = !stepData->Mark;
+            stepData.Top *= x * x;
+            stepData.Under += 2;
+            stepData.Mark = !stepData.Mark;
         }
 
         private static double CalculateCurrent(StepData stepData)
