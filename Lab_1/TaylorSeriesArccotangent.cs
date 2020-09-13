@@ -1,18 +1,15 @@
 ﻿using System;
 
-namespace Lab1
+namespace Lab_1
 {
     public static class TaylorSeriesArccotangent
     {
         
         private const int MaxN = 100000;
-        
-        private static double _result;
+        private static double Result { get; set; }
+        public static string Condition { get; private set; }
+        public static int I { get; private set; }
 
-        public static string Condition;
-
-        public static int I;
-        
         private struct StepData
         {
             public double Top { get; set; }
@@ -29,14 +26,14 @@ namespace Lab1
 
         public static double CalculateValue(double x, double precision)
         {
-            _result = 0d;
+            Result = 0d;
             var stepData = new StepData(x, 1d, true);
             I = 0;
 
             if (Math.Abs(x) >= 1)
             {
                 Condition = "Неверное значение x!";
-                return _result;
+                return Result;
             }
 
             for (; I < MaxN; I++)
@@ -48,7 +45,7 @@ namespace Lab1
                         break;
                     }
 
-                    _result += stepValue;
+                    Result += stepValue;
                     // Console.WriteLine($"{I}) {$"{_result:F20}", 10}");
                     
                     UpdateDataForNextStep(ref stepData, x);
@@ -63,7 +60,7 @@ namespace Lab1
             }
 
             Condition = "Значение получено";
-            return _result;
+            return Result;
         }
 
         private static void UpdateDataForNextStep(ref StepData stepData, double x)

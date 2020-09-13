@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lab1
+namespace Lab_1
 {
     static class Program
     {
@@ -8,7 +8,7 @@ namespace Lab1
         private static double XEnd { get; set; }
         private static double Dx { get; set; }
         private static double Precision { get; set; }
-        
+
         static void Main()
         {
             while (true)

@@ -5,3 +5,19 @@ Lab_4/.idea
 Lab_5/.idea
 Lab_6/.idea
 
+Lab_1/bin
+Lab_2/bin
+Lab_3/bin
+Lab_4/bin
+Lab_5/bin
+Lab_6/bin
+
+Lab_1/obj
+Lab_2/obj
+Lab_3/obj
+Lab_4/obj
+Lab_5/obj
+Lab_6/obj
+
+.idea/
+
