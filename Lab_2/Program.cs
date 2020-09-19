@@ -5,21 +5,23 @@ namespace Lab_2
 {
     class Program
     {
+        private static List<ContainingArray> Series { get; set; }
+
         static void Main()
         {
             
-            var series = new List<ContainingArray>();
+            Series = new List<ContainingArray>();
 
             while (true)
             {
                try
                {
-                   if (series.Count > 0)
+                   if (Series.Count > 0)
                    {
                        Console.Write("Created arrays: \n");
-                       foreach (var item in series)
+                       foreach (var item in Series)
                        {
-                           Console.Write($"{series.IndexOf(item) + 1}) ");
+                           Console.Write($"{Series.IndexOf(item) + 1}) ");
                            foreach (var value in item.SeriesArray)
                            {
                                Console.Write($"{value} ");                               
@@ -37,21 +39,21 @@ namespace Lab_2
                        case 1:
                            Console.Write("Enter an array size: ");
                            var tempSize = int.Parse(Console.ReadLine()!);
-                           series.Add(new ContainingArray(tempSize));
+                           Series.Add(new ContainingArray(tempSize));
                            break;
                        case 2:
                            Console.Write("Enter an array size: ");
                            tempSize = int.Parse(Console.ReadLine()!);
                            Console.Write("Enter a SinH value: ");
                            var tempX = double.Parse(Console.ReadLine()!);
-                           series.Add(new ContainingArray(tempSize, tempX));
+                           Series.Add(new ContainingArray(tempSize, tempX));
                            break;
                        case 3:
                            Console.Write("Enter an array number: ");
                            tempSize = int.Parse(Console.ReadLine()!);
                            var counter = 0;
                            ContainingArray currentEl = null;
-                           foreach (var item in series)
+                           foreach (var item in Series)
                            {
                                if (counter < tempSize - 1)
                                    counter++;
@@ -68,7 +70,7 @@ namespace Lab_2
                            tempSize = int.Parse(Console.ReadLine()!);
                            counter = 0;
                            currentEl = null;
-                           foreach (var item in series)
+                           foreach (var item in Series)
                            {
                                if (counter < tempSize - 1)
                                    counter++;
