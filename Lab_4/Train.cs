@@ -18,13 +18,13 @@ namespace Lab_4
 
         public Tuple<string, string, short> GetTrainInTuple()
         {
-            return new Tuple<string, string, short>(this.Destination, this.DepartureTime, this.TrainId);
+            return new Tuple<string, string, short>(Destination, DepartureTime, TrainId);
         }
 
         public override string ToString()
         {
-            return $"Destination: {Destination}; DepartureTime: " +
-                   $"{DepartureTime}; TrainId: {TrainId}\n";
+            return $"Destination: \"{Destination}\", DepartureTime: " +
+                   $"\"{DepartureTime}\", TrainId: \"{TrainId}\"";
         }
 
         public int CompareTo(object obj)
@@ -51,14 +51,12 @@ namespace Lab_4
 
         public static int CompareByDestination(Train train1, Train train2)
         {
-            return !train1.GetTrainInTuple().Item1.Equals(train2.GetTrainInTuple().Item1) ? 
-                string.CompareOrdinal(train1.GetTrainInTuple().Item1, train2.GetTrainInTuple().Item1) : 0;
+            return string.CompareOrdinal(train1.GetTrainInTuple().Item1, train2.GetTrainInTuple().Item1);
         }
         
         public static int CompareByDepartureTime(Train train1, Train train2)
         {
-            return !train1.GetTrainInTuple().Item2.Equals(train2.GetTrainInTuple().Item2) ? 
-                string.CompareOrdinal(train1.GetTrainInTuple().Item2, train2.GetTrainInTuple().Item2) : 0;
+            return string.CompareOrdinal(train1.GetTrainInTuple().Item2, train2.GetTrainInTuple().Item2);
         }
 
         public static int CompareByTrainId(Train train1, Train train2)
