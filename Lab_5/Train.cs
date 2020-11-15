@@ -14,11 +14,6 @@ namespace Lab_5
             StationId = stationId;
             WeekInfo = weekInfo;
         }
-        
-        public double AverageTripCount()
-        {
-            return WeekInfo.Aggregate(0.0, (current, day) => current + day) / 5;
-        }
 
         public override string ToString()
         {
