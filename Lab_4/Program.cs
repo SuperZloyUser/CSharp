@@ -14,6 +14,8 @@ namespace Lab_4
                 temp1.AddDefaults();
                 temp2.AddDefaults();
 
+                // Console.WriteLine(temp1.ToString());
+                
                 temp1.Add(new Train(new Tuple<string, string, short>("NX", "1 2 3", 5)));
                 temp1.Add(new Train(new Tuple<string, string, short>("NY", "1 2 4", 6)));
                 temp1.Add(new Train(new Tuple<string, string, short>("NZ", "1 2 5", 7)));
@@ -27,14 +29,13 @@ namespace Lab_4
                 temp1[1] = new Train(new Tuple<string, string, short>("AB", "3 3 3", 1));
                 temp1[3] = new Train(new Tuple<string, string, short>("AC", "3 3 3", 3));
 
-                Console.WriteLine(temp1[1]);
+                Console.WriteLine(temp1[20]);
 
                 Console.WriteLine(journal.ToString());
 
                 Journal.Sort(1);
                 
-                Console.WriteLine("----------------\n\n" + journal.ToString());
-
+                Console.WriteLine("----------------\n\n" + journal);
             }
             catch (Exception e)
             {

@@ -9,8 +9,7 @@ namespace Lab_4
         private readonly List<Train> _trainList = new List<Train>();
 
         private string Name { get; set; }
-
-        public delegate void Comparer(Train train1, Train train2);
+        
         private delegate void TrainCollectionHandler(string trainCollectionName, string changeType, string message, ref Train record);
         private event TrainCollectionHandler OnTrainCollectionCountChanged;
         private event TrainCollectionHandler OnTrainReferenceChanged;
@@ -26,11 +25,7 @@ namespace Lab_4
         {
             get
             {
-                foreach (var train in _trainList.Where(train => train.GetTrainInTuple().Item3 == pos))
-                {
-                    return train;
-                }
-                return default(Train);
+                return _trainList.FirstOrDefault(train => train.GetTrainInTuple().Item3 == pos);
             }
             set
             {
@@ -81,6 +76,10 @@ namespace Lab_4
                    Add(new Train(new Tuple<string, string, short>("temp1", "temp2", 2))) && 
                    Add(new Train(new Tuple<string, string, short>("temp2", "temp1", 1)));
         }
-         
+
+        public override string ToString()
+        {
+            return _trainList.Aggregate($"\"{Name}\" collection content:\n", (current, train) => current + (train.ToString() + "\n"));
+        }
     }
 }

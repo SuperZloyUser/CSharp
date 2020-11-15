@@ -2,7 +2,7 @@
 
 namespace Lab_4
 {
-    public readonly struct Train : IComparable
+    public class Train : IComparable
     {
         private string Destination { get; }
         private string DepartureTime { get; }
