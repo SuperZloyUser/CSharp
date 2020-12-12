@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 
 namespace Lab_5
 {
@@ -23,8 +23,9 @@ namespace Lab_5
             {
                 result += day + " ";
             }
-            
+
             return result;
         }
+        
     }
 }

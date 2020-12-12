@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lab_5
 {
-    public class StationCollection
+    public class StationCollection : IEnumerable<Station>
     {
         private readonly List<Station> _stationList = new List<Station>();
 
@@ -16,7 +17,7 @@ namespace Lab_5
 
         public bool Add(Station record)
         {
-            if (_stationList.Any(train => train.Number == record.Number))
+            if (_stationList.Any(currentStation => currentStation.Number == record.Number))
             {
                 return false;
             }
@@ -26,7 +27,8 @@ namespace Lab_5
 
         public bool Remove(int currentId)
         {
-            foreach (var station in _stationList.Where(train => train.Number == currentId))
+            foreach (var station in _stationList.Where(currentStation => 
+                currentStation.Number == currentId))
             {
                 _stationList.Remove(station);
                 return true;
@@ -43,10 +45,20 @@ namespace Lab_5
                    Add(new Station("Station-50", 50));
         }
 
+        public IEnumerator<Station> GetEnumerator()
+        {
+            return _stationList.GetEnumerator();
+        }
+
         public override string ToString()
         {
             return _stationList.Aggregate($"\"{Name}\" station collection content:\n", 
-                (current, train) => current + (train.ToString() + "\n"));
+                (current, train) => current + (train + "\n"));
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _stationList.GetEnumerator();
         }
     }
 }

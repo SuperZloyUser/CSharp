@@ -2,7 +2,7 @@
 
 namespace Lab_4
 {
-    static class Program
+    class Program
     {
         static void Main()
         {

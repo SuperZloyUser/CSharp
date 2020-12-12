@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lab_5
 {
- public class TrainCollection
-    {
+ public class TrainCollection : IEnumerable<Train>
+ {
         private readonly List<Train> _trainList = new List<Train>();
-
+        
         private string Name { get; set; }
 
         public TrainCollection(string name)
@@ -44,7 +45,7 @@ namespace Lab_5
 
         public bool AddDefaults()
         {
-            return Add(new Train("Number-1", 50, new[] {1, 2, 3, 4, 5})) && 
+            return Add(new Train("Number-1", 50, new[] {1, 2, 3, 4, 5})) &&
                    Add(new Train("Number-2", 2, new[] {2, 2, 2, 2, 2})) &&
                    Add(new Train("Number-3", 1, new[] {5, 4, 3, 2, 1})) &&
                    Add(new Train("Number-4", 2, new[] {1, 1, 1, 1, 1})) &&
@@ -61,5 +62,16 @@ namespace Lab_5
             return _trainList.Aggregate($"\"{Name}\" Train collection content:\n", 
                 (current, train) => current + (train + "\n"));
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _trainList.GetEnumerator();
+        }
+     
+        public IEnumerator<Train> GetEnumerator()
+        {
+            return _trainList.GetEnumerator();
+        }
+        
     }
 }
