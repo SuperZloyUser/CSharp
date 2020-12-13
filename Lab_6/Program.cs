@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Lab_6
 {
@@ -8,6 +9,9 @@ namespace Lab_6
         private static double XEnd { get; set; }
         private static double Dx { get; set; }
         private static double Precision { get; set; }
+        private static int CountOfThreads { get; set; }
+        private static Thread[] Threads { get; set; }
+        private static AutoResetEvent[] WaitHandler { get; set; }
 
         static void Main()
         {
@@ -15,33 +19,54 @@ namespace Lab_6
             {
                 try
                 {
+                    Console.Write("Enter count of threads: ");
+                    CountOfThreads = int.Parse(Console.ReadLine()!);
                     Console.Write("Enter the start number: ");
-                    XStart = double.Parse(System.Console.ReadLine()!);
+                    XStart = double.Parse(Console.ReadLine()!);
                     Console.Write("Enter the end value: ");
-                    XEnd = double.Parse(System.Console.ReadLine()!);
+                    XEnd = double.Parse(Console.ReadLine()!);
                     Console.Write("Enter dx: ");
-                    Dx = double.Parse(System.Console.ReadLine()!);
+                    Dx = double.Parse(Console.ReadLine()!);
                     Console.Write("Enter Precision: ");
-                    Precision = double.Parse(System.Console.ReadLine()!);
+                    Precision = double.Parse(Console.ReadLine()!);
+                    if (XEnd < XStart)
+                        throw new Exception("Incorrect X-Start/X-End");
+                    if (CountOfThreads > (XEnd - XStart) / Dx)
+                        throw new Exception("Incorrect count of threads!");
                     break;
                 }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine(e.Message);
+                    CountOfThreads = 3;
+                    XStart = 0.96;
+                    XEnd = 0.99;
+                    Dx = 0.001;
+                    Precision = 0.00000000001;
+                    break;
                 }
             }
 
-            Console.WriteLine($" {"x  ", 10} | {"f(x)    ", 20} | {"Sum(x)  ", 20} | {"n   ", 7} | {"Condition", 12} ");
+            Threads = new Thread[CountOfThreads];
+            WaitHandler = new AutoResetEvent[CountOfThreads];
+            
+            for (var i = 0; i < CountOfThreads; i++)
+                WaitHandler[i] = new AutoResetEvent(true);
+
+            Console.WriteLine($"{"Thread", 6}{"x  ", 10} | {"f(x)    ", 20} | {"Sum(x)  ", 20} | " +
+                              $"{"n   ", 7} | {"Condition", 20} | {"Time elapsed", 8}");
+            var counter = 0;
             for (var i = XStart; i <= XEnd; i += Dx)
             {
+                var taylorS = new TaylorSeriesArccotangent();
+                Threads[counter % CountOfThreads] = 
+                    new Thread(new ParameterizedThreadStart(taylorS.CalculateValue));
+
+                Threads[counter % CountOfThreads].Start(
+                    new Params(i, Precision, counter % CountOfThreads, ref WaitHandler[counter % CountOfThreads]));
                 
-                Console.WriteLine($" {$"{i:F10}".TrimEnd('0').TrimEnd('.'), 10} | {$"{Math.Atan(i):F10}", 20} | " +
-                                  $"{$"{TaylorSeriesArccotangent.CalculateValue(i, Precision):F10}", 20} | " +
-                                  $"{$"{TaylorSeriesArccotangent.I}", 7} | " +
-                                  $"{TaylorSeriesArccotangent.Condition}");
-                    
+                counter++;
             }
-            
         }
     }
 }

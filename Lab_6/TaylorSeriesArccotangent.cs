@@ -1,14 +1,21 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Lab_6
 {
-    public static class TaylorSeriesArccotangent
+    public class TaylorSeriesArccotangent
     {
         
         private const int MaxN = 1000000;
-        private static double Result { get; set; }
-        public static string Condition { get; private set; }
-        public static int I { get; private set; }
+        private double Result { get; set; }
+        public string Condition { get; private set; }
+        public int I { get; private set; }
+        public Stopwatch Stopwatch = new Stopwatch();
+
+        public TaylorSeriesArccotangent()
+        {
+        }
 
         private struct StepData
         {
@@ -24,21 +31,33 @@ namespace Lab_6
             }
         }
 
-        public static double CalculateValue(double x, double precision)
+        public void CalculateValue(object obj)
         {
-            Result = 0d;
-            var stepData = new StepData(x, 1d, true);
-            I = 0;
-
-            if (Math.Abs(x) >= 1)
+            var curParams = (Params) obj;
+            if (curParams != null)
             {
-                Condition = "Неверное значение x!";
-                return Result;
-            }
+                var x = curParams.X;
+                var precision = curParams.Precision;
+                var threadNumber = curParams.ThreadNumber;
+                var waitHandler = curParams.WaitHandler;
+                waitHandler.WaitOne();
+                
+                Stopwatch.Start();
+            
+                Result = 0d;
+                var stepData = new StepData(x, 1d, true);
+                I = 0;
 
-            for (; I < MaxN; I++)
-            {
-                var stepValue = CalculateCurrent(stepData);
+                if (Math.Abs(x) >= 1)
+                {
+                    Condition = "Неверное значение x!";
+                    PrintCondition(x, threadNumber);
+                    return;
+                }
+
+                for (; I < MaxN; I++)
+                {
+                    var stepValue = CalculateCurrent(stepData);
 
                     if (Math.Abs(stepValue) < precision)
                     {
@@ -49,31 +68,49 @@ namespace Lab_6
                     // Console.WriteLine($"{I}) {$"{_result:F20}", 10}");
                     
                     UpdateDataForNextStep(ref stepData, x);
+                }
+
+                if (I == MaxN)
+                {
+                    Condition = "Ошибка вычисления! (Превышено число итераций)";
+                    // throw new Exception("Задана слишком высокая точность!");
+                    PrintCondition(x, threadNumber);
+                    return;
+                }
+
+                Condition = "Значение получено";
+                Stopwatch.Stop();
                 
+                PrintCondition(x, threadNumber);
+                // Thread.Sleep(new Random().Next(300, 1000));
+                waitHandler.Set();
             }
-
-            if (I == MaxN)
-            {
-                Condition = "Ошибка вычисления! (Превышено число итераций)";
-                // throw new Exception("Задана слишком высокая точность!");
-                return 0d;
-            }
-
-            Condition = "Значение получено";
-            return Result;
         }
 
-        private static void UpdateDataForNextStep(ref StepData stepData, double x)
+        private void PrintCondition(double x, int threadNumber)
+        {
+            Console.WriteLine($"{$"  {threadNumber}) ", 6}" +
+                              $"{$"{x:F10}".TrimEnd('0').TrimEnd('.'), 10} | {$"{Math.Atan(x):F10}", 20} | " +
+                              $"{$"{Result:F10}", 20} | " +
+                              $"{$"{I}", 7} | " +
+                              $"{$"{Condition}", 20} | {$"{Stopwatch.Elapsed}", 8}");
+        }
+
+        private void UpdateDataForNextStep(ref StepData stepData, double x)
         {
             stepData.Top *= x * x;
             stepData.Under += 2;
             stepData.Mark = !stepData.Mark;
         }
 
-        private static double CalculateCurrent(StepData stepData)
+        private double CalculateCurrent(StepData stepData)
         {
             return stepData.Mark ? stepData.Top / stepData.Under : - stepData.Top / stepData.Under;
         }
-        
+
+        public static void CalculateValue()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
