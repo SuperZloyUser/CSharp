@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 
 namespace Lab_6
 {
@@ -12,10 +11,6 @@ namespace Lab_6
         public string Condition { get; private set; }
         public int I { get; private set; }
         public Stopwatch Stopwatch = new Stopwatch();
-
-        public TaylorSeriesArccotangent()
-        {
-        }
 
         private struct StepData
         {
