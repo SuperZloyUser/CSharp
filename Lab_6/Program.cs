@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Lab_6
@@ -39,9 +40,9 @@ namespace Lab_6
                 {
                     Console.Error.WriteLine(e.Message);
                     CountOfThreads = 3;
-                    XStart = 0.96;
-                    XEnd = 0.99;
-                    Dx = 0.001;
+                    XStart = 0.9999998;
+                    XEnd = 0.99999999;
+                    Dx = 0.00000001;
                     Precision = 0.00000000001;
                     break;
                 }
@@ -53,9 +54,11 @@ namespace Lab_6
             for (var i = 0; i < CountOfThreads; i++)
                 WaitHandler[i] = new AutoResetEvent(true);
 
-            Console.WriteLine($"{"Thread", 6}{"x  ", 10} | {"f(x)    ", 20} | {"Sum(x)  ", 20} | " +
-                              $"{"n   ", 7} | {"Condition", 20} | {"Time elapsed", 8}");
+            Console.WriteLine($"{"Thread", 6}{"x  ", 10} | {"f(x)      ", 12} | {"Sum(x)     ", 12} | " +
+                              $"{"n   ", 10} | {"Condition     ", 20} | {"   Time elapsed", 8}");
             var counter = 0;
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             for (var i = XStart; i <= XEnd; i += Dx)
             {
                 var taylorS = new TaylorSeriesArccotangent();
@@ -67,6 +70,9 @@ namespace Lab_6
                 
                 counter++;
             }
+            WaitHandle.WaitAll(WaitHandler);
+            stopwatch.Stop();
+            Console.WriteLine($"Summary time elapsed: {stopwatch.Elapsed}");
         }
     }
 }

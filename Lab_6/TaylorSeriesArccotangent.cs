@@ -6,7 +6,7 @@ namespace Lab_6
     public class TaylorSeriesArccotangent
     {
         
-        private const int MaxN = 1000000;
+        private const int MaxN = 1000000000;
         private double Result { get; set; }
         public string Condition { get; private set; }
         public int I { get; private set; }
@@ -85,9 +85,9 @@ namespace Lab_6
         private void PrintCondition(double x, int threadNumber)
         {
             Console.WriteLine($"{$"  {threadNumber}) ", 6}" +
-                              $"{$"{x:F10}".TrimEnd('0').TrimEnd('.'), 10} | {$"{Math.Atan(x):F10}", 20} | " +
-                              $"{$"{Result:F10}", 20} | " +
-                              $"{$"{I}", 7} | " +
+                              $"{$"{x:F10}".TrimEnd('0').TrimEnd('.'), 10} | {$"{Math.Atan(x):F10}", 12} | " +
+                              $"{$"{Result:F10}", 12} | " +
+                              $"{$"{I}", 10} | " +
                               $"{$"{Condition}", 20} | {$"{Stopwatch.Elapsed}", 8}");
         }
 
