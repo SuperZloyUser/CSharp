@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lab_1
+namespace Lab_6
 {
     public static class TaylorSeriesArccotangent
     {
